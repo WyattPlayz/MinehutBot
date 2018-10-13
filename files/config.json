@@ -2,5 +2,6 @@
   "prefix": "!",
   "token": "What do you want this for?",
   "OInvite": "https://discordapp.com/api/oauth2/authorize?client_id=500499702169600001&permissions=8&redirect_uri=https%3A%2F%2Fminehut.com%2Fpanel&scope=bot",
-  "API": "https://pocket.minehut.com"
+  "API": "https://pocket.minehut.com",
+  "ownerid": "270035320894914560"
 }
