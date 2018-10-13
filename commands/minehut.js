@@ -1,7 +1,7 @@
 exports.run = async (client, msg, args) => {
   const got = require('got');
   const { Client, RichEmbed } = require('discord.js');
-  let config = require('../config.json')
+  let config = require('../files/config.json')
   let API = config.API
   var response = await got(`${API}/network/simple_stats`)
   console.log('Normal: ' + response)
@@ -14,7 +14,7 @@ exports.run = async (client, msg, args) => {
       // Set the title of the field
       .setTitle('Minehut Stats')
       // Set the color of the embed
-      .setColor(0xFF5000)
+      .setColor(0x000000)
       // Set the main content of the embed
       .setDescription('Players Online: ' + players + '/0 \n Servers Online: ' + servers + '/' + servermax)
       .setFooter('  Provided By Minehut Bot');

@@ -5,6 +5,10 @@ const app = express()
 const fs = require('fs');
 const config = './config.json'
 const got = require('got');
+const cookie = require('cookie');
+
+
+
 const { catchAsync } = require('./files/utils.js');
 
 app.get('/webfs', function(req, res) {
@@ -21,7 +25,22 @@ app.get('/prelogin', function(req, res) {
 });
 
 app.get('/login', function(req, res) {
+  var url = require('url');
+  var adr = req.url
+  var q = url.parse(adr, true);
+  
+  var qdata = q.query
+  
+  if (qdata.error == 1) {
+    res.writeHeader(200, 'application/html');
+    res.write("<h1>Error!</h1>");
+    res.write("<h3>Error Code 1</h3>");
+    res.write("<h5>Discord Identifier Not Defined In Session Storage. Did you use a link from the bot?</h5>");
+    res.end("<h6>Please try again!</h6>");
+  } else {
+  if (!localStorage.getItem("DiscordID")); res.redirect('/login?error=1')
   res.sendFile(__dirname + '/web/login.html');
+  }
 });
 
 app.get('/mhl', catchAsync(async(req, res) => {

@@ -1,6 +1,6 @@
 const { Client, RichEmbed } = require('discord.js');
 const client = new Client();
-const config = './config.json'
+const config = '../files//config.json'
 const fs = require('fs');
 const update = true;
 
