@@ -1,8 +1,7 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { Client, RichEmbed } = require('discord.js');
+const client = new Client();
 const config = './config.json'
 const fs = require('fs');
-const config = require("./configuration.json");
 const update = true;
 
 module.exports.run = async () => {
@@ -23,20 +22,13 @@ fs.readdir("./events/", (err, files) => {
 });
 
 client.on("message", async (message) => {
+  console.log(message.content)
   if (message.author.bot) return;
-  let prefix = await db.fetch(`prefix_${message.guild.id}`);
-  if (!prefix) {
-    prefix = config.prefix;
-  };
-  if(message.content.indexOf(prefix) !== 0) return;
+  console.log('not a bot');
+  var prefix = '!';
+  console.log('current prefix: ' + prefix);
+  if(!message.content.startsWith(prefix)) return;
   console.log('Detected Possible Command')
-  if (config.Maintence == true) {
-      if (message.author.id !== config.OwnerID) {
-        message.channel.send('Sorry! Maintence mode is ON. Commands are disabled!');
-        console.log('MAINTENCE MODE ON. COMMANDS DISABLED.');
-        return;
-      };
-  };
   // This is the best way to define args. Trust me.
   const args = message.content.slice(prefix.length).trim().split(/ +/g);
   const command = args.shift().toLowerCase();
@@ -45,10 +37,17 @@ client.on("message", async (message) => {
   // The list of if/else is replaced with those simple 2 lines:
   try {
     let commandFile = require(`./commands/${command}.js`);
+    message.delete()
     commandFile.run(client, message, args);
   } catch (err) {
     console.error(err);
+    const embed = new RichEmbed()
+    .setDescription("FATAL ERROR - " + err)
+    .setTitle('Error Report')
+    .setFooter('Provided By Minehut Bot')
+    .setColor(0xFF0000);
+    message.channel.send(embed);
   }
 });
-client.login(process.env.TOKEN);
+client.login(process.env.token);
 };
